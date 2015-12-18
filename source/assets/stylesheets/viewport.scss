@@ -1,0 +1,13 @@
+@import "bootstrap/variables";
+
+body:after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  content: "xs";
+  @media (min-width: $screen-sm-min) { content: "sm"; }
+  @media (min-width: $screen-md-min) { content: "md"; }
+  @media (min-width: $screen-lg-min) { content: "lg"; }
+}

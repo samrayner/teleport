@@ -1,0 +1,109 @@
+%h1
+  Teleport for Bootstrap 3
+  %br
+  %small Grid layouts without sacrificing source order
+
+:markdown
+  ## Why?
+
+  Float-based grid systems (like [Bootstrap's][bsgs]) are great for quickly creating
+  column-based layouts but sometimes rely on source order to position things correctly.
+
+  Until [Bootstrap 4][bs4] is released with flexbox support, Teleport is a simple way to
+  construct layouts not possible with standard responsive design.
+
+  [bs4]: http://v4-alpha.getbootstrap.com/
+  [bsgs]: http://getbootstrap.com/css/
+
+  ### Desired Result (with Teleport)
+
+  ✔ Mobile
+
+  ✔ Desktop
+
+  Try resizing the page to see the boxes stack correctly on mobile
+
+.row
+  .col-sm-4
+    .alert.alert-success Source order: 1
+    %div{ 'data-teleport': 'red sm' }
+  .col-sm-8
+    .alert.alert-info.tall Source order: 2
+  .col-sm-4.col-xs-12{ 'data-teleport': 'red xs' }
+    .alert.alert-danger Source order: 3
+
+:markdown
+  ### Maintaining source order (without Teleport)
+
+  ✔ Mobile
+
+  ✖ Desktop
+
+  Boxes stack correctly on mobile but the desired layout isn't possible for desktop
+
+.row
+  .col-sm-4
+    .alert.alert-success Source order: 1
+  .col-sm-8
+    .alert.alert-info.tall Source order: 2
+  .col-sm-4.col-xs-12
+    .alert.alert-danger Source order: 3
+
+:markdown
+  ### Sacrificing source order (without Teleport)
+
+  ✖ Mobile
+
+  ✔ Desktop
+
+  We have our desired layout on desktop but our single-column
+  hierarchy is wrong on mobile (and for screen readers)
+
+.row
+  .col-sm-4
+    .alert.alert-success Source order: 1
+    .alert.alert-danger Source order: 2
+  .col-sm-8
+    .alert.alert-info.tall Source order: 3
+
+---
+
+:markdown
+  ## How?
+
+  Teleport is a simple bit of Javascript that relocates DOM nodes between
+  placeholders in the HTML as the viewport is resized.
+
+  Here is the HTML for the Desired Result example above:
+
+      <div class="row">
+        <div class="col-sm-4">
+          <p>Source order: 1</p>
+          <div data-teleport="red sm"></div>
+        </div>
+        <div class="col-sm-8">
+          <p>Source order: 2</p>
+        </div>
+        <div class="col-xs-12" data-teleport="red xs">
+          <p>Source order: 3</p>
+        </div>
+      </div>
+
+  The content from `red xs` is teleported to `red sm` when the viewport crosses the
+  `$screen-sm-min` Bootstrap breakpoint. You can define as many placeholder elements as you
+  like with an identifier (.e.g `red`) followed by `xs, sm, md` or `lg`.
+
+  ## Setup
+
+  You'll need:
+
+  - [jQuery](https://jquery.com/)
+  - [Bootstrap](http://getbootstrap.com/)
+  - [jquery.debouncedresize](https://github.com/samrayner/teleport/blob/source/source/assets/javascripts/vendor/jquery.debouncedresize.js)
+  - [teleport.coffee](https://github.com/samrayner/teleport/blob/source/source/assets/javascripts/teleport.coffee)
+  - [viewport.scss](https://github.com/samrayner/teleport/blob/source/source/assets/stylesheets/viewport.scss)
+
+  I've been lazy packaging up the assets for others to use. [Shout at me on Twitter][tw] if you
+  need them in another format and I'll see what I can do.
+
+  [tw]: http://twitter.com/samrayner
