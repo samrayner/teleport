@@ -43,11 +43,20 @@ You'll need:
 
 - [jQuery](https://jquery.com/)
 - [Bootstrap](http://getbootstrap.com/)
-- [jquery.debouncedresize](https://github.com/samrayner/teleport/blob/source/source/assets/javascripts/vendor/jquery.debouncedresize.js)
 - [teleport.coffee](https://github.com/samrayner/teleport/blob/source/source/assets/javascripts/teleport.coffee)
-- [viewport.scss](https://github.com/samrayner/teleport/blob/source/source/assets/stylesheets/viewport.scss)
+- [teleport.scss](https://github.com/samrayner/teleport/blob/source/source/assets/stylesheets/teleport.scss)
 
-I've been lazy packaging up the assets for others to use. [Shout at me on Twitter][tw] if you
-need them in another format and I'll see what I can do.
+I've been lazy packaging up the assets for others to use. [Shout at me on Twitter][tw] if you need them in another format and I'll see what I can do.
 
+## Flash of Pre-Teleport Layout
+
+If you find a teleporting element is causing a nasty flash of incorrect layout until Javascript has loaded, you can use [Bootstrap's responsive utility classes][util] to limit its visibility to appropriate breakpoints.
+
+For example, if your content is in the XS placeholder by default (which I recommend - mobile first) then you can do:
+
+    <div class="visible-xs-block" data-teleport="id xs">
+
+But **beware**: The above example will mean users on desktop with Javascript disabled will never see the content (as it won't get teleported out of the XS block). It would be possible to solve that with some overriding CSS wrapped in `<noscript>` if necessary though.
+
+[util]: http://getbootstrap.com/css/#responsive-utilities
 [tw]: http://twitter.com/samrayner
