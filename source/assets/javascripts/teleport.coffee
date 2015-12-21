@@ -7,6 +7,7 @@ class Viewport
     size.replace(/\"/g, '')
 
 class Teleporter
+  lastWidth: Viewport.getWidth()
   widths: Viewport.widths.reverse()
 
   teleport: ($source, $target) ->
@@ -17,8 +18,8 @@ class Teleporter
     return true
 
   target: (id) ->
-    currentAndSmaller = @widths.slice(@widths.indexOf(Viewport.getWidth()))
-    for size in currentAndSmaller
+    lastAndSmaller = @widths.slice(@widths.indexOf(@lastWidth))
+    for size in lastAndSmaller
       $target = $("[data-teleport='#{id} #{size}']")
       return $target if $target.length >= 1
     return null
@@ -33,9 +34,15 @@ class Teleporter
       $target = @target(id)
       @teleport($source, $target)
 
+  windowResized: =>
+    currentWidth = Viewport.getWidth()
+    if currentWidth != @lastWidth
+      @lastWidth = currentWidth
+      @teleportAll()
+
   init: ->
     @teleportAll()
-    $(window).on 'debouncedresize', @teleportAll
+    $(window).resize @windowResized
 
 $ ->
   tele = new Teleporter

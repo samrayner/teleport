@@ -1,5 +1,6 @@
 @import "bootstrap/variables";
 
+// make CSS breakpoints available for use in JS
 body:after {
   position: absolute;
   width: 0;
@@ -10,4 +11,8 @@ body:after {
   @media (min-width: $screen-sm-min) { content: "sm"; }
   @media (min-width: $screen-md-min) { content: "md"; }
   @media (min-width: $screen-lg-min) { content: "lg"; }
+}
+
+[data-teleport]:empty {
+  display: none;
 }
