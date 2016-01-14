@@ -7,8 +7,9 @@ class Viewport
     size.replace(/\"/g, '')
 
 class Teleporter
-  lastWidth: Viewport.getWidth()
-  widths: Viewport.widths.reverse()
+  constructor: ->
+    @lastWidth = Viewport.getWidth()
+    @widths = Viewport.widths.reverse()
 
   teleport: ($source, $target) ->
     return false unless $target and $source
