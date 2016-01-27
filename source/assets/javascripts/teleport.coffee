@@ -41,9 +41,14 @@ class Teleporter
       @lastWidth = currentWidth
       @teleportAll()
 
+  turbolinks: =>
+    @lastWidth = null
+    @windowResized()
+
   init: ->
     @teleportAll()
     $(window).resize @windowResized
+    $(document).on 'page:change', @turbolinks
 
 $ ->
   tele = new Teleporter
