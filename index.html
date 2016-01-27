@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <title>Teleport for Bootstrap 3</title>
+    <link href="assets/stylesheets/application.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Teleport for Bootstrap 3
+        <br>
+        <small>Grid layouts without sacrificing source order</small>
+      </h1>
+      <h2 id="why">Why?</h2>
+      
+      <p>Float-based grid systems (like <a href="http://getbootstrap.com/css/">Bootstrap's</a>) are great for quickly creating
+      column-based layouts but sometimes rely on source order to position things correctly.</p>
+      
+      <p>Until <a href="http://v4-alpha.getbootstrap.com/">Bootstrap 4</a> is released with flexbox support, Teleport is a simple way to
+      construct layouts not possible with standard responsive design.</p>
+      
+      <h3 id="desired-result-with-teleport">Desired Result (with Teleport)</h3>
+      
+      <p>✔ Mobile</p>
+      
+      <p>✔ Desktop</p>
+      
+      <p>Try resizing the page to see the boxes stack correctly on mobile</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="alert alert-success">Source order: 1</div>
+          <div data-teleport="red sm"></div>
+        </div>
+        <div class="col-sm-8">
+          <div class="alert alert-info tall">Source order: 2</div>
+        </div>
+        <div class="col-sm-4 col-xs-12 visible-xs-block" data-teleport="red xs">
+          <div class="alert alert-danger">Source order: 3</div>
+        </div>
+      </div>
+      <h3 id="maintaining-source-order-without-teleport">Maintaining source order (without Teleport)</h3>
+      
+      <p>✔ Mobile</p>
+      
+      <p>✖ Desktop</p>
+      
+      <p>Boxes stack correctly on mobile but the desired layout isn't possible for desktop</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="alert alert-success">Source order: 1</div>
+        </div>
+        <div class="col-sm-8">
+          <div class="alert alert-info tall">Source order: 2</div>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+          <div class="alert alert-danger">Source order: 3</div>
+        </div>
+      </div>
+      <h3 id="sacrificing-source-order-without-teleport">Sacrificing source order (without Teleport)</h3>
+      
+      <p>✖ Mobile</p>
+      
+      <p>✔ Desktop</p>
+      
+      <p>We have our desired layout on desktop but our single-column
+      hierarchy is wrong on mobile (and for screen readers)</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="alert alert-success">Source order: 1</div>
+          <div class="alert alert-danger">Source order: 2</div>
+        </div>
+        <div class="col-sm-8">
+          <div class="alert alert-info tall">Source order: 3</div>
+        </div>
+      </div>
+      <h2 id="how">How?</h2>
+      
+      <p>Teleport is a simple bit of Javascript that relocates DOM nodes between
+      placeholders in the HTML as the viewport is resized.</p>
+      
+      <p>Here is the HTML for the Desired Result example above:</p>
+      
+      <pre><code>&lt;div class="row"&gt;&#x000A;  &lt;div class="col-sm-4"&gt;&#x000A;    &lt;p&gt;Source order: 1&lt;/p&gt;&#x000A;    &lt;div data-teleport="red sm"&gt;&lt;/div&gt;&#x000A;  &lt;/div&gt;&#x000A;  &lt;div class="col-sm-8"&gt;&#x000A;    &lt;p&gt;Source order: 2&lt;/p&gt;&#x000A;  &lt;/div&gt;&#x000A;  &lt;div class="col-xs-12" data-teleport="red xs"&gt;&#x000A;    &lt;p&gt;Source order: 3&lt;/p&gt;&#x000A;  &lt;/div&gt;&#x000A;&lt;/div&gt;&#x000A;</code></pre>
+      
+      <p>The content from <code>red xs</code> is teleported to <code>red sm</code> when the viewport crosses the
+      <code>$screen-sm-min</code> Bootstrap breakpoint. You can define as many placeholder elements as you
+      like with an identifier (.e.g <code>red</code>) followed by <code>xs, sm, md</code> or <code>lg</code>.</p>
+      
+      <h2 id="setup">Setup</h2>
+      
+      <p>You'll need:</p>
+      
+      <ul>
+        <li><a href="https://jquery.com/">jQuery</a></li>
+        <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+        <li><a href="https://raw.githubusercontent.com/samrayner/teleport/source/source/assets/javascripts/teleport.coffee">teleport.coffee</a></li>
+        <li><a href="https://raw.githubusercontent.com/samrayner/teleport/source/source/assets/stylesheets/teleport.scss">teleport.scss</a></li>
+      </ul>
+      
+      <p>I've been lazy packaging up the assets for others to use. <a href="http://twitter.com/samrayner">Shout at me on Twitter</a> if you
+      need them in another format and I'll see what I can do.</p>
+      
+      <h2 id="flash-of-pre-teleport-layout">Flash of Pre-Teleport Layout</h2>
+      
+      <p>If you find a teleporting element is causing a nasty flash of incorrect layout until Javascript has loaded, you can use <a href="http://getbootstrap.com/css/#responsive-utilities">Bootstrap's responsive utility classes</a> to limit its visibility to appropriate breakpoints.</p>
+      
+      <p>For example, if your content is in the XS placeholder by default (which I recommend - mobile first) then you can do:</p>
+      
+      <pre><code>&lt;div class="visible-xs-block" data-teleport="id xs"&gt;&#x000A;</code></pre>
+      
+      <p>But <strong>beware</strong>: The above example will mean users on desktop with Javascript disabled will never see the content (as it won't get teleported out of the XS block). It would be possible to solve that with some overriding CSS wrapped in <code>&lt;noscript&gt;</code> if necessary though.</p>
+    </div>
+    <script src="assets/javascripts/application.js"></script>
+  </body>
+</html>

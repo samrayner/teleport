@@ -1,0 +1,1 @@
+body:after{position:absolute;width:0;height:0;overflow:hidden;visibility:hidden;content:"xs"}@media (min-width: 768px){body:after{content:"sm"}}@media (min-width: 992px){body:after{content:"md"}}@media (min-width: 1200px){body:after{content:"lg"}}[data-teleport]:empty{display:none}
