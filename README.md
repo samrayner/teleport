@@ -2,6 +2,8 @@
 
 _Grid layouts without sacrificing source order_
 
+### Sponsored by [Terracoding](http://www.terracoding.com/)
+
 # [View the demo](http://samrayner.github.io/teleport)
 
 ## Why?
